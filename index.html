@@ -1,23 +1,50 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Login Page</title>
-    <link rel="stylesheet" type="text/css" href="./login.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Login</h1>
-        <form>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-
-            <button type="submit">Login</button>
-        </form>
-    </div>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+ <head>
+    <title>Google Sign-In</title>
+    <meta name="google-signin-client_id" content="941737412720-apcp93og6ljhkcuj5rrd0982kfq55t74.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-</body>
+    <style>
+      .g-signin2 {
+        width: 220px;
+        height: 50px;
+      }
+    </style>
+ </head>
+ <body>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+    <script>
+      function onSignIn(googleUser) {
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+
+        // Pass the token to your server.
+        // This example assumes you have a form on your page that posts to your server.
+        // You'll need to add an additional input field to your form for the ID token.
+        var form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', '/your-server-side-code'); // Update this value to your server-side script
+
+        var input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', 'idtoken');
+        input.setAttribute('value', id_token);
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+      }
+    </script>
+ </body>
 </html>
