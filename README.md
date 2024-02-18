@@ -19,7 +19,6 @@
 
 ###
 
-<img src="https://raw.githubusercontent.com/dhruvgupta3389/dhruvgupta3389/output/snake.svg" alt="Snake animation" />
 
 ###
 
